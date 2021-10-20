@@ -30,7 +30,13 @@ const resolvers = {
 
             return { token, user };
         },
-    }
-    };
+        addUser: async (parent, args) => {
+            const user = await User.create(args);
+            const token = signToken(user);
 
-    module.exports = resolvers;
+            return { token, user };
+        },
+    }
+};
+
+module.exports = resolvers;
