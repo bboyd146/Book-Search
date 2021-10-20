@@ -24,10 +24,10 @@ const typeDefs = gql`
     }
 
     type Query {
-        books: [Book]
-        users: [User]
+        # books: [Book]
+        # users: [User]
         me: User
-        user(username: String!): User
+        # user(username: String!): User
     }
 
     input SavedBookInput {
