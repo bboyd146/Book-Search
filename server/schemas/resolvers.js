@@ -14,7 +14,23 @@ const resolvers = {
             throw new AuthenticationError("Not logged in");
         },
     },
+    Mutation: {
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
 
-};
+            if (!user) {
+                throw new AuthenticationError("Invalid credentials");
+            }
 
-module.exports = resolvers;
+            const correctPassword = await user.isCorrectPassword(password);
+            if (!correctPassword) {
+                throw new AuthenticationError("Invalid credentials");
+            }
+            const token = signToken(user);
+
+            return { token, user };
+        },
+    }
+    };
+
+    module.exports = resolvers;
