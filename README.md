@@ -21,6 +21,7 @@ https://obscure-springs-99529.herokuapp.com/
 npm install
 
 ## Usage 
+![obscure-springs-99529 herokuapp com_ (1)](https://user-images.githubusercontent.com/82745040/138368828-bac531c7-8b86-4adb-b477-651592bcdc58.png)
 
 
 ## License 
