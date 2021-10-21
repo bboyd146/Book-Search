@@ -22,7 +22,7 @@ const SearchBooks = () => {
     return () => saveBookIds(savedBookIds);
   });
 
-  const [saveBook, ] = useMutation(SAVE_BOOK);
+  const [saveBook, { error } ] = useMutation(SAVE_BOOK);
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
@@ -69,13 +69,13 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await saveBook({
+      await saveBook({
         variables: {
           input: bookToSave,
         },
       });
 
-      if (!response.ok) {
+      if (error) {
         throw new Error('something went wrong!');
       }
 
@@ -140,6 +140,11 @@ const SearchBooks = () => {
                         : 'Save this Book!'}
                     </Button>
                   )}
+                        {error && (
+              <div className="my-3 p-3 bg-danger text-white">
+                {error.message}
+              </div>
+            )}
                 </Card.Body>
               </Card>
             );

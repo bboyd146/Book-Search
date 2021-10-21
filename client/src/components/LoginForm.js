@@ -9,7 +9,7 @@ const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [login, ] = useMutation(LOGIN_USER);
+  const [login, { error, data }] = useMutation(LOGIN_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -27,17 +27,18 @@ const LoginForm = () => {
     }
 
     try {
-      const response = await login({
+      const {data} = await login({
         variables: { ...userFormData },
-      });;
+      });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      const { token, user } = await response.json();
+      // if (!data.ok) {
+      //   throw new Error('something went wrong!');
+      // }
+      // const { login } = data
+      const { user} = login
+      // const { token, user } = await response.json();
       console.log(user);
-      Auth.login(token);
+      Auth.login(data.login.token);
     } catch (err) {
       console.error(err);
       setShowAlert(true);
@@ -52,6 +53,11 @@ const LoginForm = () => {
 
   return (
     <>
+    {data ? (
+              <p>
+                Success! You may now head{' '}
+              </p>
+            ) : (
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
           Something went wrong with your login credentials!
@@ -88,6 +94,12 @@ const LoginForm = () => {
           Submit
         </Button>
       </Form>
+                 )}
+      {error && (
+              <div className="my-3 p-3 bg-danger text-white">
+                {error.message}
+              </div>
+            )}
     </>
   );
 };
